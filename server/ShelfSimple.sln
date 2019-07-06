@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelfSimple.Api", "ShelfSimple.Api\ShelfSimple.Api.csproj", "{8C3E5F1A-6B2D-4C7E-9A41-2F0D7B6E5C13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C3E5F1A-6B2D-4C7E-9A41-2F0D7B6E5C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C3E5F1A-6B2D-4C7E-9A41-2F0D7B6E5C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C3E5F1A-6B2D-4C7E-9A41-2F0D7B6E5C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C3E5F1A-6B2D-4C7E-9A41-2F0D7B6E5C13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D9A0B57-1E44-4F2B-8C6A-77B1E2D9F048}
+	EndGlobalSection
+EndGlobal
