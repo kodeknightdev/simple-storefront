@@ -1,0 +1,36 @@
+## Visual Studio / .NET
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
+packages/
+!**/packages/build/
+*.nupkg
+_ReSharper*/
+*.DotSettings.user
+App_Data/*.mdf
+App_Data/*.ldf
+Web.*.local.config
+PublishProfiles/
+
+## Node / Angular
+node_modules/
+dist/
+tmp/
+out-tsc/
+.angular/
+coverage/
+npm-debug.log*
+yarn-error.log
+
+## Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
