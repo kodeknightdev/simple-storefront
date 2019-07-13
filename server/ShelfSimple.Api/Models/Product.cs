@@ -15,6 +15,12 @@ namespace ShelfSimple.Api.Models
 
         public string Description { get; set; }
 
+        [MaxLength(500)]
+        public string ImageUrl { get; set; }
+
+        [MaxLength(50)]
+        public string Category { get; set; }
+
         public decimal Price { get; set; }
 
         // how many are in stock

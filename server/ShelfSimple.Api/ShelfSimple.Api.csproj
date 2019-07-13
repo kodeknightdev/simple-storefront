@@ -93,6 +93,10 @@
     <Compile Include="Migrations\201907072003117_InitialCreate.Designer.cs">
       <DependentUpon>201907072003117_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907131741563_AddProductImageAndCategory.cs" />
+    <Compile Include="Migrations\201907131741563_AddProductImageAndCategory.Designer.cs">
+      <DependentUpon>201907131741563_AddProductImageAndCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Seller.cs" />
@@ -114,6 +118,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201907072003117_InitialCreate.resx">
       <DependentUpon>201907072003117_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907131741563_AddProductImageAndCategory.resx">
+      <DependentUpon>201907131741563_AddProductImageAndCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
