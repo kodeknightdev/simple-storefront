@@ -104,7 +104,13 @@
     <Compile Include="Migrations\201907131741563_AddProductImageAndCategory.Designer.cs">
       <DependentUpon>201907131741563_AddProductImageAndCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907172226382_AddCarts.cs" />
+    <Compile Include="Migrations\201907172226382_AddCarts.Designer.cs">
+      <DependentUpon>201907172226382_AddCarts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Seller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907131741563_AddProductImageAndCategory.resx">
       <DependentUpon>201907131741563_AddProductImageAndCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907172226382_AddCarts.resx">
+      <DependentUpon>201907172226382_AddCarts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
