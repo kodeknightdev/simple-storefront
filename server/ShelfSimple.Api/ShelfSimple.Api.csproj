@@ -91,6 +91,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Data\ShelfContext.cs" />
+    <Compile Include="Dtos\CartDto.cs" />
     <Compile Include="Dtos\PagedResult.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
     <Compile Include="Global.asax.cs">
@@ -114,6 +115,7 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Seller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CartService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
