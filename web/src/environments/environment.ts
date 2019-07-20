@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://localhost:44362/api',
+  // test mode publishable key - swap in your own pk_test_ from the Stripe dashboard
+  stripePublishableKey: 'pk_test_REPLACE_ME'
 };
 
 /*
