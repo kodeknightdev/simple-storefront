@@ -39,6 +39,10 @@ namespace ShelfSimple.Api.Services
             if (cart == null)
                 return null;
 
+            var product = await db.Products.FindAsync(productId);
+            if (product == null)
+                throw new ProductNotFoundException(productId);
+
             var item = cart.Items.FirstOrDefault(i => i.ProductId == productId);
             if (item == null)
             {

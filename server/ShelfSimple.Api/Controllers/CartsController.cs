@@ -41,7 +41,16 @@ namespace ShelfSimple.Api.Controllers
             if (request == null)
                 return BadRequest("Missing body");
 
-            var cart = await carts.AddItemAsync(id, request.ProductId, request.Quantity);
+            Models.Cart cart;
+            try
+            {
+                cart = await carts.AddItemAsync(id, request.ProductId, request.Quantity);
+            }
+            catch (ProductNotFoundException ex)
+            {
+                return Content(System.Net.HttpStatusCode.NotFound, new { message = ex.Message });
+            }
+
             if (cart == null)
                 return NotFound();
             return Ok(CartService.ToDto(cart));
