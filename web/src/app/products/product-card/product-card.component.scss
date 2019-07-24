@@ -1,0 +1,34 @@
+.card {
+  border: 1px solid #e6e1da;
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: #f3efe9;
+  }
+}
+
+.card-body {
+  padding: 0.75rem 1rem;
+
+  h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+  }
+}
+
+.seller {
+  margin: 0;
+  color: #8a8178;
+  font-size: 0.85rem;
+}
+
+.price {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
