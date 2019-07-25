@@ -15,7 +15,12 @@ namespace ShelfSimple.Api.Controllers
     {
         private const int MaxPageSize = 48;
 
-        private readonly ShelfContext db = new ShelfContext();
+        private readonly ShelfContext db;
+
+        public ProductsController(ShelfContext db)
+        {
+            this.db = db;
+        }
 
         // GET api/products?category=ceramics&page=1&pageSize=12
         [HttpGet, Route("")]
@@ -83,12 +88,5 @@ namespace ShelfSimple.Api.Controllers
             SellerId = p.SellerId,
             SellerName = p.Seller.DisplayName
         };
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                db.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }

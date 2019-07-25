@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ShelfSimple.Api.Data;
 using ShelfSimple.Api.Dtos;
 using ShelfSimple.Api.Services;
 
@@ -10,13 +9,11 @@ namespace ShelfSimple.Api.Controllers
     [RoutePrefix("api/carts")]
     public class CartsController : ApiController
     {
-        private readonly ShelfContext db;
         private readonly CartService carts;
 
-        public CartsController()
+        public CartsController(CartService carts)
         {
-            db = new ShelfContext();
-            carts = new CartService(db);
+            this.carts = carts;
         }
 
         [HttpPost, Route("")]
@@ -75,13 +72,6 @@ namespace ShelfSimple.Api.Controllers
             if (cart == null)
                 return NotFound();
             return Ok(CartService.ToDto(cart));
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }
