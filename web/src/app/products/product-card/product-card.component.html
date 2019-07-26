@@ -1,8 +1,8 @@
-<div class="card">
+<a class="card" [routerLink]="['/products', product.id]">
   <img [src]="product.imageUrl" [alt]="product.title">
   <div class="card-body">
     <h3>{{ product.title }}</h3>
     <p class="seller">by {{ product.sellerName }}</p>
     <p class="price">{{ product.price | currency }}</p>
   </div>
-</div>
+</a>

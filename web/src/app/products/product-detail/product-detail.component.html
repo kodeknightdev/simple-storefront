@@ -1,0 +1,17 @@
+<a routerLink="/" class="back">&larr; Back to shop</a>
+
+<div class="detail" *ngIf="product$ | async as product; else loading">
+  <img [src]="product.imageUrl" [alt]="product.title">
+
+  <div class="info">
+    <h1>{{ product.title }}</h1>
+    <p class="seller">Made by {{ product.sellerName }}</p>
+    <p class="price">{{ product.price | currency }}</p>
+    <p class="description">{{ product.description }}</p>
+    <p class="stock">{{ product.quantity }} left</p>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
