@@ -1,3 +1,16 @@
+<header class="site-header">
+  <div class="container">
+    <a routerLink="/" class="brand">Shelf Simple</a>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shop</a>
+    </nav>
+  </div>
+</header>
+
 <main class="container">
   <router-outlet></router-outlet>
 </main>
+
+<footer class="site-footer">
+  <div class="container">Handmade things, sold by the people who make them.</div>
+</footer>
