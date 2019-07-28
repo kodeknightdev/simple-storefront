@@ -13,6 +13,8 @@ namespace ShelfSimple.Api.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -26,6 +28,20 @@ namespace ShelfSimple.Api.Data
                 .WithMany()
                 .HasForeignKey(i => i.ProductId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<OrderItem>()
+                .HasRequired(i => i.Product)
+                .WithMany()
+                .HasForeignKey(i => i.ProductId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Total)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(i => i.UnitPrice)
+                .HasPrecision(10, 2);
 
             base.OnModelCreating(modelBuilder);
         }
