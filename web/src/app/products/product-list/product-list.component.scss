@@ -1,5 +1,35 @@
+.categories {
+  margin-bottom: 1.5rem;
+
+  button {
+    margin: 0 0.5rem 0.5rem 0;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid #e6e1da;
+    border-radius: 999px;
+    background: #fff;
+    text-transform: capitalize;
+    cursor: pointer;
+
+    &.active {
+      border-color: #b0522d;
+      color: #b0522d;
+    }
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   grid-gap: 1.25rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+
+  span {
+    margin: 0 1rem;
+  }
 }

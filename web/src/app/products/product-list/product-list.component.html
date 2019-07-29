@@ -1,7 +1,19 @@
 <h1>Fresh from the workshop</h1>
 
+<div class="categories">
+  <button type="button" [class.active]="!category" (click)="selectCategory(null)">All</button>
+  <button type="button" *ngFor="let c of categories$ | async"
+          [class.active]="c === category" (click)="selectCategory(c)">{{ c }}</button>
+</div>
+
 <p *ngIf="loading">Loading...</p>
 
 <div class="grid">
   <app-product-card *ngFor="let product of products" [product]="product"></app-product-card>
+</div>
+
+<div class="pager" *ngIf="totalPages > 1">
+  <button type="button" class="btn btn-secondary" [disabled]="page <= 1" (click)="goToPage(page - 1)">Previous</button>
+  <span>Page {{ page }} of {{ totalPages }}</span>
+  <button type="button" class="btn btn-secondary" [disabled]="page >= totalPages" (click)="goToPage(page + 1)">Next</button>
 </div>
