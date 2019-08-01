@@ -100,10 +100,12 @@
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CartsController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Data\ShelfContext.cs" />
     <Compile Include="Dtos\CartDto.cs" />
     <Compile Include="Dtos\CartItemRequest.cs" />
+    <Compile Include="Dtos\CheckoutRequest.cs" />
     <Compile Include="Dtos\PagedResult.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
     <Compile Include="Global.asax.cs">
