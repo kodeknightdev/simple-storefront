@@ -1,0 +1,27 @@
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e6e1da;
+    vertical-align: middle;
+  }
+
+  .thumb img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 3px;
+  }
+
+  .total {
+    text-align: right;
+  }
+}
+
+.subtotal {
+  text-align: right;
+  font-size: 1.1rem;
+}

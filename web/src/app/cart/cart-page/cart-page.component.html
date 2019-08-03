@@ -1,0 +1,20 @@
+<h1>Your cart</h1>
+
+<p *ngIf="loading">Loading...</p>
+
+<ng-container *ngIf="!loading">
+  <p *ngIf="!cart || cart.items.length === 0">
+    Nothing here yet. <a routerLink="/">Go find something nice.</a>
+  </p>
+
+  <table class="cart-table" *ngIf="cart?.items.length">
+    <tr *ngFor="let item of cart.items">
+      <td class="thumb"><img [src]="item.imageUrl" [alt]="item.title"></td>
+      <td>{{ item.title }}</td>
+      <td>{{ item.quantity }} &times; {{ item.unitPrice | currency }}</td>
+      <td class="total">{{ item.lineTotal | currency }}</td>
+    </tr>
+  </table>
+
+  <p class="subtotal" *ngIf="cart?.items.length">Subtotal: <strong>{{ cart.subtotal | currency }}</strong></p>
+</ng-container>
