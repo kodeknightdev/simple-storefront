@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -87,6 +88,38 @@ namespace ShelfSimple.Api.Controllers
                 Total = order.Total,
                 Currency = currency
             });
+        }
+
+        // Called by the client after stripe.handleCardPayment resolves. We don't trust the
+        // client here, just use it as a nudge to go ask Stripe what happened.
+        [HttpPost, Route("{orderId:int}/confirm")]
+        public async Task<IHttpActionResult> Confirm(int orderId)
+        {
+            var order = await db.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == orderId);
+            if (order == null || order.PaymentIntentId == null)
+                return NotFound();
+
+            if (order.Status == OrderStatus.Pending)
+            {
+                var intent = await new PaymentIntentService().GetAsync(order.PaymentIntentId);
+                if (intent.Status == "succeeded")
+                {
+                    order.Status = OrderStatus.Paid;
+                    order.PaidAt = DateTime.UtcNow;
+
+                    var productIds = order.Items.Select(i => i.ProductId).ToList();
+                    var products = await db.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
+                    foreach (var item in order.Items)
+                    {
+                        var product = products.First(p => p.Id == item.ProductId);
+                        product.Quantity = Math.Max(0, product.Quantity - item.Quantity);
+                    }
+
+                    await db.SaveChangesAsync();
+                }
+            }
+
+            return Ok(new { orderId = order.Id, status = order.Status.ToString(), total = order.Total });
         }
     }
 }
