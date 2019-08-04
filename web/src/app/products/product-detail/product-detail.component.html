@@ -9,6 +9,14 @@
     <p class="price">{{ product.price | currency }}</p>
     <p class="description">{{ product.description }}</p>
     <p class="stock">{{ product.quantity }} left</p>
+
+    <div class="buy">
+      <select [(ngModel)]="quantity" aria-label="Quantity">
+        <option *ngFor="let n of range(product.quantity)" [ngValue]="n">{{ n }}</option>
+      </select>
+      <button type="button" class="btn" [disabled]="adding" (click)="addToCart(product)">Add to cart</button>
+    </div>
+    <p class="added" *ngIf="added">Added! <a routerLink="/cart">View cart</a></p>
   </div>
 </div>
 
