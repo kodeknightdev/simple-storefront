@@ -10,11 +10,19 @@
   <table class="cart-table" *ngIf="cart?.items.length">
     <tr *ngFor="let item of cart.items">
       <td class="thumb"><img [src]="item.imageUrl" [alt]="item.title"></td>
-      <td>{{ item.title }}</td>
-      <td>{{ item.quantity }} &times; {{ item.unitPrice | currency }}</td>
+      <td><a [routerLink]="['/products', item.productId]">{{ item.title }}</a></td>
+      <td class="qty">
+        <button type="button" [disabled]="busy" (click)="changeQuantity(item, item.quantity - 1)">&minus;</button>
+        <span>{{ item.quantity }}</span>
+        <button type="button" [disabled]="busy" (click)="changeQuantity(item, item.quantity + 1)">+</button>
+      </td>
+      <td>{{ item.unitPrice | currency }}</td>
       <td class="total">{{ item.lineTotal | currency }}</td>
+      <td><button type="button" class="link" [disabled]="busy" (click)="remove(item)">Remove</button></td>
     </tr>
   </table>
 
-  <p class="subtotal" *ngIf="cart?.items.length">Subtotal: <strong>{{ cart.subtotal | currency }}</strong></p>
+  <div class="summary" *ngIf="cart?.items.length">
+    <p>Subtotal: <strong>{{ cart.subtotal | currency }}</strong></p>
+  </div>
 </ng-container>
