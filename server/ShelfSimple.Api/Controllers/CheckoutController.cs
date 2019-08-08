@@ -39,6 +39,10 @@ namespace ShelfSimple.Api.Controllers
             if (cart == null)
                 return NotFound();
 
+            // Stripe rejects a zero amount anyway, but that came back as a 500
+            if (!cart.Items.Any())
+                return BadRequest("Cart is empty");
+
             var currency = ConfigurationManager.AppSettings["stripe:Currency"] ?? "usd";
 
             var order = new Order
