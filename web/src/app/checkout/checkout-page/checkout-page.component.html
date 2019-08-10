@@ -1,0 +1,23 @@
+<h1>Checkout</h1>
+
+<div class="checkout">
+  <form [formGroup]="form" (ngSubmit)="pay()">
+    <label>
+      Email for the receipt
+      <input type="email" formControlName="email">
+    </label>
+
+    <label>Card</label>
+    <div #cardElement class="card-element"></div>
+    <p class="error" *ngIf="cardError">{{ cardError }}</p>
+
+    <button type="submit" class="btn" [disabled]="form.invalid">Pay</button>
+    <p class="hint">Test mode - use 4242 4242 4242 4242, any future date and any CVC.</p>
+  </form>
+
+  <aside class="summary" *ngIf="cart$ | async as cart">
+    <h3>Order summary</h3>
+    <p *ngFor="let item of cart.items">{{ item.quantity }} &times; {{ item.title }} <span>{{ item.lineTotal | currency }}</span></p>
+    <p class="total">Total <span>{{ cart.subtotal | currency }}</span></p>
+  </aside>
+</div>

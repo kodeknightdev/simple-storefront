@@ -24,5 +24,6 @@
 
   <div class="summary" *ngIf="cart?.items.length">
     <p>Subtotal: <strong>{{ cart.subtotal | currency }}</strong></p>
+    <a routerLink="/checkout" class="btn">Checkout</a>
   </div>
 </ng-container>
