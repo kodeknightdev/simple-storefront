@@ -16,6 +16,10 @@ namespace ShelfSimple.Api.Models
         [Index(IsUnique = true)]
         public string Email { get; set; }
 
+        // null for the seeded dev sellers until they set one
+        [MaxLength(200)]
+        public string PasswordHash { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

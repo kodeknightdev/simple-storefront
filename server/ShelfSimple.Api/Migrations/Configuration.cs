@@ -18,8 +18,8 @@ namespace ShelfSimple.Api.Migrations
             var now = DateTime.UtcNow;
 
             context.Sellers.AddOrUpdate(s => s.Email,
-                new Models.Seller { DisplayName = "Maple & Twine", Email = "maple@example.com", CreatedAt = now },
-                new Models.Seller { DisplayName = "Clayworks by June", Email = "june@example.com", CreatedAt = now });
+                new Models.Seller { DisplayName = "Maple & Twine", Email = "maple@example.com", PasswordHash = Security.PasswordHasher.Hash("devpassword1"), CreatedAt = now },
+                new Models.Seller { DisplayName = "Clayworks by June", Email = "june@example.com", PasswordHash = Security.PasswordHasher.Hash("devpassword1"), CreatedAt = now });
             context.SaveChanges();
 
             var maple = context.Sellers.Single(s => s.Email == "maple@example.com");
