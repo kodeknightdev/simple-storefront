@@ -1,5 +1,7 @@
 <h1>Checkout</h1>
 
+<p class="paid" *ngIf="paidOrderId">Payment received, thank you! Your order number is #{{ paidOrderId }}.</p>
+
 <div class="checkout">
   <form [formGroup]="form" (ngSubmit)="pay()">
     <label>
@@ -11,7 +13,7 @@
     <div #cardElement class="card-element"></div>
     <p class="error" *ngIf="cardError">{{ cardError }}</p>
 
-    <button type="submit" class="btn" [disabled]="form.invalid">Pay</button>
+    <button type="submit" class="btn" [disabled]="form.invalid || paying">{{ paying ? 'Paying...' : 'Pay' }}</button>
     <p class="hint">Test mode - use 4242 4242 4242 4242, any future date and any CVC.</p>
   </form>
 
