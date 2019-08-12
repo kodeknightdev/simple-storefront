@@ -1,6 +1,7 @@
 using System.Configuration;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
 namespace ShelfSimple.Api
@@ -13,6 +14,10 @@ namespace ShelfSimple.Api
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
+
+            // only accept bearer tokens, ignore whatever IIS thinks the user is
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // angular dev server runs on :4200
             var origins = ConfigurationManager.AppSettings["cors:origins"];

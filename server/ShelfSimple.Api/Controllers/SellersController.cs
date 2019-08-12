@@ -46,5 +46,21 @@ namespace ShelfSimple.Api.Controllers
                 Email = seller.Email
             });
         }
+
+        [Authorize, HttpGet, Route("me")]
+        public async Task<IHttpActionResult> Me()
+        {
+            var sellerId = this.GetSellerId();
+            var seller = await db.Sellers.FindAsync(sellerId);
+            if (seller == null)
+                return Unauthorized();
+
+            return Ok(new SellerDto
+            {
+                Id = seller.Id,
+                DisplayName = seller.DisplayName,
+                Email = seller.Email
+            });
+        }
     }
 }
