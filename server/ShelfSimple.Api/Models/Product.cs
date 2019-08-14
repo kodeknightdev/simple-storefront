@@ -26,6 +26,9 @@ namespace ShelfSimple.Api.Models
         // how many are in stock
         public int Quantity { get; set; }
 
+        // sellers "delete" by archiving, old orders still point at the product
+        public bool IsArchived { get; set; }
+
         public DateTime CreatedAt { get; set; }
     }
 }

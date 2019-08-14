@@ -121,6 +121,7 @@
     <Compile Include="Controllers\CartsController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SellerProductsController.cs" />
     <Compile Include="Controllers\SellersController.cs" />
     <Compile Include="Controllers\StripeWebhookController.cs" />
     <Compile Include="Data\ShelfContext.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Dtos\CheckoutRequest.cs" />
     <Compile Include="Dtos\PagedResult.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
+    <Compile Include="Dtos\ProductInput.cs" />
     <Compile Include="Dtos\SellerDtos.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -152,6 +154,10 @@
     <Compile Include="Migrations\201908101912047_AddSellerPassword.cs" />
     <Compile Include="Migrations\201908101912047_AddSellerPassword.Designer.cs">
       <DependentUpon>201908101912047_AddSellerPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908142251318_AddProductIsArchived.cs" />
+    <Compile Include="Migrations\201908142251318_AddProductIsArchived.Designer.cs">
+      <DependentUpon>201908142251318_AddProductIsArchived.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
@@ -195,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908101912047_AddSellerPassword.resx">
       <DependentUpon>201908101912047_AddSellerPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908142251318_AddProductIsArchived.resx">
+      <DependentUpon>201908142251318_AddProductIsArchived.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
