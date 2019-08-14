@@ -1,7 +1,5 @@
 <h1>Checkout</h1>
 
-<p class="paid" *ngIf="paidOrderId">Payment received, thank you! Your order number is #{{ paidOrderId }}.</p>
-
 <div class="checkout">
   <form [formGroup]="form" (ngSubmit)="pay()">
     <label>

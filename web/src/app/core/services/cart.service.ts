@@ -47,6 +47,11 @@ export class CartService {
       .pipe(tap(cart => this.changed.next(cart)));
   }
 
+  // after a successful payment - next add will start a new cart
+  clear() {
+    localStorage.removeItem(CART_KEY);
+  }
+
   // the server hands out the cart id, we just hang on to it
   private ensureCart(): Observable<string> {
     if (this.cartId) {

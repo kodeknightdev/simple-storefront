@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -23,13 +24,13 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
   form: FormGroup;
   cardError: string;
   paying = false;
-  paidOrderId: number;
 
   private stripe: any;
   private card: any;
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private cartService: CartService,
     private checkoutService: CheckoutService
   ) { }
@@ -83,7 +84,8 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.checkoutService.confirm(orderId).subscribe(status => {
         this.paying = false;
         if (status.status === 'Paid') {
-          this.paidOrderId = status.orderId;
+          this.cartService.clear();
+          this.router.navigate(['/checkout/complete', status.orderId]);
         }
       });
     }, () => {
