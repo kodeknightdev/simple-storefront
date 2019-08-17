@@ -35,9 +35,6 @@ namespace ShelfSimple.Api.Controllers
         [HttpPost, Route("{id:guid}/items")]
         public async Task<IHttpActionResult> AddItem(Guid id, CartItemRequest request)
         {
-            if (request == null)
-                return BadRequest("Missing body");
-
             Models.Cart cart;
             try
             {
@@ -56,9 +53,6 @@ namespace ShelfSimple.Api.Controllers
         [HttpPut, Route("{id:guid}/items/{productId:int}")]
         public async Task<IHttpActionResult> UpdateItem(Guid id, int productId, CartItemRequest request)
         {
-            if (request == null)
-                return BadRequest("Missing body");
-
             var cart = await carts.SetQuantityAsync(id, productId, request.Quantity);
             if (cart == null)
                 return NotFound();

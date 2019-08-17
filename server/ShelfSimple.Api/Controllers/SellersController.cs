@@ -22,9 +22,6 @@ namespace ShelfSimple.Api.Controllers
         [HttpPost, Route("register")]
         public async Task<IHttpActionResult> Register(RegisterSellerRequest request)
         {
-            if (request == null || !ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var email = request.Email.Trim().ToLowerInvariant();
             if (await db.Sellers.AnyAsync(s => s.Email == email))
                 return Conflict();

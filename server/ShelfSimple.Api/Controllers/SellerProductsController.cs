@@ -36,9 +36,6 @@ namespace ShelfSimple.Api.Controllers
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> Create(ProductInput input)
         {
-            if (input == null || !ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var product = new Product { SellerId = this.GetSellerId(), CreatedAt = DateTime.UtcNow };
             Apply(product, input);
             db.Products.Add(product);
@@ -50,9 +47,6 @@ namespace ShelfSimple.Api.Controllers
         [HttpPut, Route("{id:int}")]
         public async Task<IHttpActionResult> Update(int id, ProductInput input)
         {
-            if (input == null || !ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var product = await db.Products.FindAsync(id);
             if (product == null)
                 return NotFound();

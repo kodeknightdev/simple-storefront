@@ -32,9 +32,6 @@ namespace ShelfSimple.Api.Controllers
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> Checkout(CheckoutRequest request)
         {
-            if (request == null || !ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var cart = await carts.FindAsync(request.CartId);
             if (cart == null)
                 return NotFound();

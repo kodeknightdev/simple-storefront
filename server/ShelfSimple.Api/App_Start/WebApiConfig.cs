@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using ShelfSimple.Api.Filters;
 
 namespace ShelfSimple.Api
 {
@@ -18,6 +19,8 @@ namespace ShelfSimple.Api
             // only accept bearer tokens, ignore whatever IIS thinks the user is
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
+            config.Filters.Add(new ValidateModelAttribute());
 
             // angular dev server runs on :4200
             var origins = ConfigurationManager.AppSettings["cors:origins"];
