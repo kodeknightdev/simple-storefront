@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  tokenUrl: 'https://localhost:44362/token',
   apiUrl: 'https://localhost:44362/api',
   // test mode publishable key - swap in your own pk_test_ from the Stripe dashboard
   stripePublishableKey: 'pk_test_REPLACE_ME'
