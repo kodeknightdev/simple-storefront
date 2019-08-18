@@ -47,7 +47,7 @@ namespace ShelfSimple.Api.Controllers
         [HttpPut, Route("{id:int}")]
         public async Task<IHttpActionResult> Update(int id, ProductInput input)
         {
-            var product = await db.Products.FindAsync(id);
+            var product = await FindOwnAsync(id);
             if (product == null)
                 return NotFound();
 
@@ -59,13 +59,20 @@ namespace ShelfSimple.Api.Controllers
         [HttpDelete, Route("{id:int}")]
         public async Task<IHttpActionResult> Archive(int id)
         {
-            var product = await db.Products.FindAsync(id);
+            var product = await FindOwnAsync(id);
             if (product == null)
                 return NotFound();
 
             product.IsArchived = true;
             await db.SaveChangesAsync();
             return StatusCode(System.Net.HttpStatusCode.NoContent);
+        }
+
+        // 404 rather than 403 for other sellers' products, no need to confirm they exist
+        private Task<Product> FindOwnAsync(int id)
+        {
+            var sellerId = this.GetSellerId();
+            return db.Products.FirstOrDefaultAsync(p => p.Id == id && p.SellerId == sellerId);
         }
 
         private static void Apply(Product product, ProductInput input)
