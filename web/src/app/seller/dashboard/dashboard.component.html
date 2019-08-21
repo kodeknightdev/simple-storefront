@@ -1,0 +1,31 @@
+<div class="dash-header">
+  <h1>Your shop</h1>
+  <button type="button" class="btn btn-secondary" (click)="logout()">Log out</button>
+</div>
+
+<p *ngIf="loading">Loading...</p>
+
+<p *ngIf="!loading && products.length === 0">You haven't listed anything yet.</p>
+
+<table class="products" *ngIf="products.length">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>In stock</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of products">
+      <td>{{ p.title }}</td>
+      <td>{{ p.category }}</td>
+      <td>{{ p.price | currency }}</td>
+      <td>{{ p.quantity }}</td>
+      <td class="actions">
+        <button type="button" class="link" (click)="archive(p)">Remove</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
