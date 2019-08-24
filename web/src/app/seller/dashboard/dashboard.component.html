@@ -1,6 +1,9 @@
 <div class="dash-header">
   <h1>Your shop</h1>
-  <button type="button" class="btn btn-secondary" (click)="logout()">Log out</button>
+  <div>
+    <a routerLink="/seller/products/new" class="btn">Add a product</a>
+    <button type="button" class="btn btn-secondary" (click)="logout()">Log out</button>
+  </div>
 </div>
 
 <p *ngIf="loading">Loading...</p>
@@ -24,6 +27,7 @@
       <td>{{ p.price | currency }}</td>
       <td>{{ p.quantity }}</td>
       <td class="actions">
+        <a [routerLink]="['/seller/products', p.id, 'edit']">Edit</a>
         <button type="button" class="link" (click)="archive(p)">Remove</button>
       </td>
     </tr>
