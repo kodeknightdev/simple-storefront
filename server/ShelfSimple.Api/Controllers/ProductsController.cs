@@ -29,7 +29,7 @@ namespace ShelfSimple.Api.Controllers
             if (page < 1) page = 1;
             pageSize = Math.Max(1, Math.Min(pageSize, MaxPageSize));
 
-            var query = db.Products.AsQueryable();
+            var query = db.Products.Where(p => !p.IsArchived);
             if (!string.IsNullOrWhiteSpace(category))
                 query = query.Where(p => p.Category == category);
 
@@ -53,7 +53,7 @@ namespace ShelfSimple.Api.Controllers
         public async Task<IHttpActionResult> GetCategories()
         {
             var categories = await db.Products
-                .Where(p => p.Category != null)
+                .Where(p => p.Category != null && !p.IsArchived)
                 .Select(p => p.Category)
                 .Distinct()
                 .OrderBy(c => c)
@@ -66,7 +66,7 @@ namespace ShelfSimple.Api.Controllers
         public async Task<IHttpActionResult> GetProduct(int id)
         {
             var product = await db.Products
-                .Where(p => p.Id == id)
+                .Where(p => p.Id == id && !p.IsArchived)
                 .Select(ToDto)
                 .FirstOrDefaultAsync();
 
