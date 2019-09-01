@@ -35,5 +35,9 @@
     </label>
   </div>
 
+  <ul class="server-errors" *ngIf="serverErrors.length">
+    <li *ngFor="let e of serverErrors">{{ e }}</li>
+  </ul>
+
   <button type="submit" class="btn" [disabled]="saving">{{ isEdit ? 'Save changes' : 'List it' }}</button>
 </form>
