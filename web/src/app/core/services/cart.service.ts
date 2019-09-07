@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { Cart } from '../models/cart';
@@ -27,12 +27,31 @@ export class CartService {
     if (!this.cartId) {
       return of(null);
     }
-    return this.http.get<Cart>(`${this.baseUrl}/${this.cartId}`);
+    return this.http.get<Cart>(`${this.baseUrl}/${this.cartId}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        // cart got cleaned up on the server (or the db was reset) - start over
+        if (err.status === 404) {
+          this.clear();
+          return of(null);
+        }
+        return throwError(err);
+      })
+    );
   }
 
   add(productId: number, quantity = 1): Observable<Cart> {
     return this.ensureCart().pipe(
       switchMap(id => this.http.post<Cart>(`${this.baseUrl}/${id}/items`, { productId, quantity })),
+      catchError((err: HttpErrorResponse) => {
+        // stale cart id - make a new cart and try once more
+        if (err.status === 404 && err.error && !err.error.message) {
+          this.clear();
+          return this.ensureCart().pipe(
+            switchMap(id => this.http.post<Cart>(`${this.baseUrl}/${id}/items`, { productId, quantity }))
+          );
+        }
+        return throwError(err);
+      }),
       tap(cart => this.changed.next(cart))
     );
   }
