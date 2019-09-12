@@ -6,9 +6,10 @@ import { SellerRoutingModule } from './seller-routing.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductFormComponent } from './product-form/product-form.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
-  declarations: [LoginComponent, DashboardComponent, ProductFormComponent],
+  declarations: [LoginComponent, DashboardComponent, ProductFormComponent, OrdersComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

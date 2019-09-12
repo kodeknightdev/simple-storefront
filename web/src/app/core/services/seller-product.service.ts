@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Product } from '../models/product';
+import { SellerOrder } from '../models/seller-order';
 
 export interface ProductInput {
   title: string;
@@ -36,5 +37,9 @@ export class SellerProductService {
 
   archive(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  orders(): Observable<SellerOrder[]> {
+    return this.http.get<SellerOrder[]>(`${environment.apiUrl}/seller/orders`);
   }
 }

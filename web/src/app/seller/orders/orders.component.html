@@ -1,0 +1,22 @@
+<a routerLink="/seller" class="back">&larr; Back to your shop</a>
+<h1>Orders</h1>
+
+<ng-container *ngIf="orders$ | async as orders; else loading">
+  <p *ngIf="orders.length === 0">No orders yet. They'll show up here once someone pays.</p>
+
+  <div class="order" *ngFor="let order of orders">
+    <div class="order-header">
+      <strong>#{{ order.orderId }}</strong>
+      <span>{{ order.paidAt | date:'medium' }}</span>
+      <span>{{ order.buyerEmail }}</span>
+      <strong>{{ order.total | currency }}</strong>
+    </div>
+    <ul>
+      <li *ngFor="let item of order.items">{{ item.quantity }} &times; {{ item.title }}</li>
+    </ul>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
