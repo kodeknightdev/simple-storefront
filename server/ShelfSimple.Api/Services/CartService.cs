@@ -50,7 +50,8 @@ namespace ShelfSimple.Api.Services
                 cart.Items.Add(item);
             }
 
-            item.Quantity += Math.Max(1, quantity);
+            // can't put more in the cart than the seller has
+            item.Quantity = Math.Min(item.Quantity + Math.Max(1, quantity), product.Quantity);
             cart.UpdatedAt = DateTime.UtcNow;
             await db.SaveChangesAsync();
 
@@ -67,7 +68,7 @@ namespace ShelfSimple.Api.Services
             if (item == null)
                 return cart;
 
-            item.Quantity = quantity;
+            item.Quantity = Math.Min(quantity, item.Product.Quantity);
             cart.UpdatedAt = DateTime.UtcNow;
             await db.SaveChangesAsync();
             return cart;

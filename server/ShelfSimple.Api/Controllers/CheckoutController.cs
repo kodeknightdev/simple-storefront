@@ -40,6 +40,12 @@ namespace ShelfSimple.Api.Controllers
             if (!cart.Items.Any())
                 return BadRequest("Cart is empty");
 
+            // stock might have changed since things went into the cart
+            var soldOut = cart.Items.Where(i => i.Quantity > i.Product.Quantity).Select(i => i.Product.Title).ToList();
+            if (soldOut.Any())
+                return Content(System.Net.HttpStatusCode.Conflict,
+                    new { message = "Not enough stock for: " + string.Join(", ", soldOut) });
+
             var currency = ConfigurationManager.AppSettings["stripe:Currency"] ?? "usd";
 
             var order = new Order
