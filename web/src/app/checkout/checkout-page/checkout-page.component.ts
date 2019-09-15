@@ -88,8 +88,10 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.router.navigate(['/checkout/complete', status.orderId]);
         }
       });
-    }, () => {
-      this.cardError = 'Something went wrong starting checkout, please try again.';
+    }, err => {
+      this.cardError = err.status === 409 && err.error
+        ? err.error.message
+        : 'Something went wrong starting checkout, please try again.';
       this.paying = false;
     });
   }

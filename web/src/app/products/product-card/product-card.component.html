@@ -3,6 +3,9 @@
   <div class="card-body">
     <h3>{{ product.title }}</h3>
     <p class="seller">by {{ product.sellerName }}</p>
-    <p class="price">{{ product.price | currency }}</p>
+    <p class="price">
+      {{ product.price | currency }}
+      <span class="sold-out" *ngIf="product.quantity === 0">Sold out</span>
+    </p>
   </div>
 </a>
