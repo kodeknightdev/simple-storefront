@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
@@ -25,7 +26,11 @@ namespace ShelfSimple.Api.Controllers
         public async Task<IHttpActionResult> Webhook()
         {
             var json = await Request.Content.ReadAsStringAsync();
-            var signature = Request.Headers.GetValues("Stripe-Signature").FirstOrDefault();
+            // GetValues throws if the header isn't there at all
+            IEnumerable<string> values;
+            if (!Request.Headers.TryGetValues("Stripe-Signature", out values))
+                return BadRequest("Missing Stripe-Signature header");
+            var signature = values.FirstOrDefault();
 
             Event stripeEvent;
             try
