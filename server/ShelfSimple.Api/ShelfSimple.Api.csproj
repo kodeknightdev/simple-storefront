@@ -175,6 +175,7 @@
     <Compile Include="Security\PasswordHasher.cs" />
     <Compile Include="Security\SellerOAuthProvider.cs" />
     <Compile Include="Services\CartService.cs" />
+    <Compile Include="Services\CheckoutService.cs" />
     <Compile Include="Services\ProductNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>

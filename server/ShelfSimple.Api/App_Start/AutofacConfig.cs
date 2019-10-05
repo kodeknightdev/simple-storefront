@@ -18,6 +18,7 @@ namespace ShelfSimple.Api
             // one context per request, Autofac disposes it at the end
             builder.RegisterType<ShelfContext>().AsSelf().InstancePerRequest();
             builder.RegisterType<CartService>().AsSelf().InstancePerRequest();
+            builder.RegisterType<CheckoutService>().AsSelf().InstancePerRequest();
 
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

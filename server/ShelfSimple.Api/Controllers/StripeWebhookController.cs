@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ShelfSimple.Api.Data;
-using ShelfSimple.Api.Models;
+using ShelfSimple.Api.Services;
 using Stripe;
 
 namespace ShelfSimple.Api.Controllers
@@ -15,11 +12,11 @@ namespace ShelfSimple.Api.Controllers
     [RoutePrefix("api/stripe")]
     public class StripeWebhookController : ApiController
     {
-        private readonly ShelfContext db;
+        private readonly CheckoutService checkout;
 
-        public StripeWebhookController(ShelfContext db)
+        public StripeWebhookController(CheckoutService checkout)
         {
-            this.db = db;
+            this.checkout = checkout;
         }
 
         [HttpPost, Route("webhook")]
@@ -47,30 +44,15 @@ namespace ShelfSimple.Api.Controllers
             if (intent == null)
                 return Ok();
 
-            var order = await db.Orders.Include(o => o.Items)
-                .FirstOrDefaultAsync(o => o.PaymentIntentId == intent.Id);
-            if (order == null || order.Status != OrderStatus.Pending)
+            var order = await checkout.FindByPaymentIntentAsync(intent.Id);
+            if (order == null)
                 return Ok();
 
             if (stripeEvent.Type == Events.PaymentIntentSucceeded)
-            {
-                order.Status = OrderStatus.Paid;
-                order.PaidAt = DateTime.UtcNow;
-
-                var productIds = order.Items.Select(i => i.ProductId).ToList();
-                var products = await db.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
-                foreach (var item in order.Items)
-                {
-                    var product = products.First(p => p.Id == item.ProductId);
-                    product.Quantity = Math.Max(0, product.Quantity - item.Quantity);
-                }
-            }
+                await checkout.MarkPaidAsync(order);
             else if (stripeEvent.Type == Events.PaymentIntentPaymentFailed)
-            {
-                order.Status = OrderStatus.Failed;
-            }
+                await checkout.MarkFailedAsync(order);
 
-            await db.SaveChangesAsync();
             return Ok();
         }
     }
