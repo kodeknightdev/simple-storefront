@@ -43,6 +43,10 @@ export class AuthService {
     );
   }
 
+  register(displayName: string, email: string, password: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/sellers/register`, { displayName, email, password });
+  }
+
   logout() {
     localStorage.removeItem(TOKEN_KEY);
     this.loggedIn.next(false);

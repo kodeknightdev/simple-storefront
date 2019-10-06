@@ -7,9 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { OrdersComponent } from './orders/orders.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [LoginComponent, DashboardComponent, ProductFormComponent, OrdersComponent],
+  declarations: [
+    LoginComponent,
+    RegisterComponent,
+    DashboardComponent,
+    ProductFormComponent,
+    OrdersComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
