@@ -1,5 +1,7 @@
+using System;
 using System.Configuration;
 using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.OAuth;
@@ -10,6 +12,12 @@ namespace ShelfSimple.Api.Security
     // grant_type=password against the Sellers table
     public class SellerOAuthProvider : OAuthAuthorizationServerProvider
     {
+        private static readonly string[] AllowedOrigins =
+            (ConfigurationManager.AppSettings["cors:origins"] ?? "")
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(o => o.Trim())
+                .ToArray();
+
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             // no client ids, the only client is our own SPA
@@ -19,9 +27,11 @@ namespace ShelfSimple.Api.Security
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            // /token isn't Web API so EnableCors doesn't cover it
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin",
-                new[] { ConfigurationManager.AppSettings["cors:origins"] });
+            // /token isn't Web API so EnableCors doesn't cover it. The header can only hold a
+            // single origin, so echo the caller's back if it's one we allow.
+            var origin = context.Request.Headers.Get("Origin");
+            if (origin != null && AllowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
+                context.OwinContext.Response.Headers.Set("Access-Control-Allow-Origin", origin);
 
             var email = (context.UserName ?? "").Trim().ToLowerInvariant();
 
