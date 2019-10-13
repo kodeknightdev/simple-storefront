@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { Cart } from '../../core/models/cart';
 import { CartService } from '../../core/services/cart.service';
 import { CheckoutService } from '../../core/services/checkout.service';
+import { CartStore } from '../../core/state/cart.store';
 
 // loaded from js.stripe.com in index.html
 declare var Stripe: any;
@@ -32,11 +33,13 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private cartService: CartService,
+    private cartStore: CartStore,
     private checkoutService: CheckoutService
   ) { }
 
   ngOnInit() {
-    this.cart$ = this.cartService.get();
+    this.cart$ = this.cartStore.cart$;
+    this.cartStore.load();
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -70,7 +73,7 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cardError = null;
 
     let orderId: number;
-    this.checkoutService.start(this.cartService.cartId, this.form.value.email).pipe(
+    this.checkoutService.start(this.cartStore.cartId, this.form.value.email).pipe(
       switchMap(session => {
         orderId = session.orderId;
         return from(this.stripe.handleCardPayment(session.clientSecret, this.card));

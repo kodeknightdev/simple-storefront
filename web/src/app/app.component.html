@@ -4,7 +4,7 @@
     <nav>
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shop</a>
       <a routerLink="/cart" routerLinkActive="active">
-        Cart <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+        Cart <span class="badge" *ngIf="cartCount$ | async as count">{{ count }}</span>
       </a>
       <a routerLink="/seller" routerLinkActive="active">Sell</a>
     </nav>

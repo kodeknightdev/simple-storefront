@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, Subject, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -8,14 +8,13 @@ import { Cart } from '../models/cart';
 
 const CART_KEY = 'shelf.cartId';
 
+// Thin wrapper around the carts api + the id we keep in localStorage.
+// Components should go through CartStore instead of using this directly.
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private readonly baseUrl = `${environment.apiUrl}/carts`;
-
-  // fires whenever we get a fresh cart back from the api (header badge listens to this)
-  readonly changed = new Subject<Cart>();
 
   constructor(private http: HttpClient) { }
 
@@ -41,34 +40,33 @@ export class CartService {
 
   add(productId: number, quantity = 1): Observable<Cart> {
     return this.ensureCart().pipe(
-      switchMap(id => this.http.post<Cart>(`${this.baseUrl}/${id}/items`, { productId, quantity })),
+      switchMap(id => this.addTo(id, productId, quantity)),
       catchError((err: HttpErrorResponse) => {
         // stale cart id - make a new cart and try once more
         if (err.status === 404 && err.error && !err.error.message) {
           this.clear();
-          return this.ensureCart().pipe(
-            switchMap(id => this.http.post<Cart>(`${this.baseUrl}/${id}/items`, { productId, quantity }))
-          );
+          return this.ensureCart().pipe(switchMap(id => this.addTo(id, productId, quantity)));
         }
         return throwError(err);
-      }),
-      tap(cart => this.changed.next(cart))
+      })
     );
   }
 
   update(productId: number, quantity: number): Observable<Cart> {
-    return this.http.put<Cart>(`${this.baseUrl}/${this.cartId}/items/${productId}`, { productId, quantity })
-      .pipe(tap(cart => this.changed.next(cart)));
+    return this.http.put<Cart>(`${this.baseUrl}/${this.cartId}/items/${productId}`, { productId, quantity });
   }
 
   remove(productId: number): Observable<Cart> {
-    return this.http.delete<Cart>(`${this.baseUrl}/${this.cartId}/items/${productId}`)
-      .pipe(tap(cart => this.changed.next(cart)));
+    return this.http.delete<Cart>(`${this.baseUrl}/${this.cartId}/items/${productId}`);
   }
 
   // after a successful payment - next add will start a new cart
   clear() {
     localStorage.removeItem(CART_KEY);
+  }
+
+  private addTo(cartId: string, productId: number, quantity: number): Observable<Cart> {
+    return this.http.post<Cart>(`${this.baseUrl}/${cartId}/items`, { productId, quantity });
   }
 
   // the server hands out the cart id, we just hang on to it

@@ -1,13 +1,11 @@
 <h1>Your cart</h1>
 
-<p *ngIf="loading">Loading...</p>
-
-<ng-container *ngIf="!loading">
-  <p *ngIf="!cart || cart.items.length === 0">
+<ng-container *ngIf="cart$ | async as cart; else empty">
+  <p *ngIf="cart.items.length === 0">
     Nothing here yet. <a routerLink="/">Go find something nice.</a>
   </p>
 
-  <table class="cart-table" *ngIf="cart?.items.length">
+  <table class="cart-table" *ngIf="cart.items.length">
     <tr *ngFor="let item of cart.items">
       <td class="thumb"><img [src]="item.imageUrl" [alt]="item.title"></td>
       <td><a [routerLink]="['/products', item.productId]">{{ item.title }}</a></td>
@@ -22,8 +20,12 @@
     </tr>
   </table>
 
-  <div class="summary" *ngIf="cart?.items.length">
+  <div class="summary" *ngIf="cart.items.length">
     <p>Subtotal: <strong>{{ cart.subtotal | currency }}</strong></p>
     <a routerLink="/checkout" class="btn">Checkout</a>
   </div>
 </ng-container>
+
+<ng-template #empty>
+  <p>Nothing here yet. <a routerLink="/">Go find something nice.</a></p>
+</ng-template>

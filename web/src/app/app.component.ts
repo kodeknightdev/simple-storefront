@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { CartService } from './core/services/cart.service';
+import { CartStore } from './core/state/cart.store';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +9,12 @@ import { CartService } from './core/services/cart.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  cartCount = 0;
+  cartCount$: Observable<number>;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartStore: CartStore) { }
 
   ngOnInit() {
-    this.cartService.get().subscribe(
-      cart => this.cartCount = cart ? cart.itemCount : 0,
-      () => this.cartCount = 0
-    );
-    this.cartService.changed.subscribe(cart => this.cartCount = cart.itemCount);
+    this.cartCount$ = this.cartStore.count$;
+    this.cartStore.load();
   }
 }
