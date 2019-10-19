@@ -66,7 +66,8 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   pay() {
-    if (this.form.invalid) {
+    // the button is disabled while paying but enter in the email field still submits
+    if (this.form.invalid || this.paying) {
       return;
     }
     this.paying = true;
