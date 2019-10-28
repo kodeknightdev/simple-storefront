@@ -32,8 +32,12 @@ namespace ShelfSimple.Api.Controllers
             Event stripeEvent;
             try
             {
+                // Stripe.net is pinned to one API version and throws if the event was rendered
+                // with another. The webhook endpoint in the dashboard is still on the account's
+                // older version, and we only read a few stable fields, so don't care.
                 stripeEvent = EventUtility.ConstructEvent(json, signature,
-                    ConfigurationManager.AppSettings["stripe:WebhookSecret"]);
+                    ConfigurationManager.AppSettings["stripe:WebhookSecret"],
+                    throwOnApiVersionMismatch: false);
             }
             catch (StripeException)
             {
