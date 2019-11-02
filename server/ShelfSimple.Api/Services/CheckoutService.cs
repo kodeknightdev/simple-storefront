@@ -67,6 +67,12 @@ namespace ShelfSimple.Api.Services
             if (soldOut.Any())
                 return CheckoutResult.Fail(CheckoutError.NotEnoughStock, "Not enough stock for: " + string.Join(", ", soldOut));
 
+            // If they already started checkout for this cart (went back, refreshed, card declined...)
+            // reuse that PaymentIntent instead of piling up pending orders.
+            var reused = await TryReusePendingAsync(cart, email);
+            if (reused != null)
+                return reused;
+
             var order = new Order
             {
                 CartId = cart.Id,
@@ -106,6 +112,39 @@ namespace ShelfSimple.Api.Services
             order.PaymentIntentId = intent.Id;
             await db.SaveChangesAsync();
 
+            return Success(order, intent);
+        }
+
+        private async Task<CheckoutResult> TryReusePendingAsync(Cart cart, string email)
+        {
+            var existing = await db.Orders
+                .Where(o => o.CartId == cart.Id && o.Status == OrderStatus.Pending && o.PaymentIntentId != null)
+                .OrderByDescending(o => o.CreatedAt)
+                .FirstOrDefaultAsync();
+            if (existing == null)
+                return null;
+
+            var intent = await paymentIntents.GetAsync(existing.PaymentIntentId);
+            var open = intent.Status != "succeeded" && intent.Status != "canceled";
+            var total = cart.Items.Sum(i => i.Product.Price * i.Quantity);
+
+            if (open && existing.Total == total)
+            {
+                existing.Email = email;
+                await db.SaveChangesAsync();
+                return Success(existing, intent);
+            }
+
+            // cart changed since - drop the old one and start fresh
+            if (open)
+                await paymentIntents.CancelAsync(existing.PaymentIntentId, new PaymentIntentCancelOptions());
+            existing.Status = OrderStatus.Failed;
+            await db.SaveChangesAsync();
+            return null;
+        }
+
+        private static CheckoutResult Success(Order order, PaymentIntent intent)
+        {
             return new CheckoutResult
             {
                 Response = new CheckoutResponse
