@@ -1,5 +1,6 @@
 <div class="auth-box">
   <h1>Seller login</h1>
+  <p class="notice" *ngIf="expired">Your session expired, please log in again.</p>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
     <label>

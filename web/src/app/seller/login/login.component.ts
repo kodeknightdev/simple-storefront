@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 
@@ -13,14 +13,17 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   error: string;
   submitting = false;
+  expired = false;
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.expired = this.route.snapshot.queryParamMap.has('expired');
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
