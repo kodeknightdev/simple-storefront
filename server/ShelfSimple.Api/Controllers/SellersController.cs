@@ -6,6 +6,7 @@ using ShelfSimple.Api.Data;
 using ShelfSimple.Api.Dtos;
 using ShelfSimple.Api.Models;
 using ShelfSimple.Api.Security;
+using ShelfSimple.Api.Services;
 
 namespace ShelfSimple.Api.Controllers
 {
@@ -29,6 +30,7 @@ namespace ShelfSimple.Api.Controllers
             var seller = new Seller
             {
                 DisplayName = request.DisplayName.Trim(),
+                Slug = await UniqueSlugAsync(request.DisplayName),
                 Email = email,
                 PasswordHash = PasswordHasher.Hash(request.Password),
                 CreatedAt = DateTime.UtcNow
@@ -36,12 +38,7 @@ namespace ShelfSimple.Api.Controllers
             db.Sellers.Add(seller);
             await db.SaveChangesAsync();
 
-            return Created("api/sellers/" + seller.Id, new SellerDto
-            {
-                Id = seller.Id,
-                DisplayName = seller.DisplayName,
-                Email = seller.Email
-            });
+            return Created("api/sellers/" + seller.Id, ToDto(seller));
         }
 
         [Authorize, HttpGet, Route("me")]
@@ -52,12 +49,42 @@ namespace ShelfSimple.Api.Controllers
             if (seller == null)
                 return Unauthorized();
 
-            return Ok(new SellerDto
+            return Ok(ToDto(seller));
+        }
+
+        [Authorize, HttpPut, Route("me")]
+        public async Task<IHttpActionResult> UpdateProfile(UpdateProfileRequest request)
+        {
+            var seller = await db.Sellers.FindAsync(this.GetSellerId());
+            if (seller == null)
+                return Unauthorized();
+
+            seller.DisplayName = request.DisplayName.Trim();
+            seller.Bio = string.IsNullOrWhiteSpace(request.Bio) ? null : request.Bio.Trim();
+            await db.SaveChangesAsync();
+
+            return Ok(ToDto(seller));
+        }
+
+        private async Task<string> UniqueSlugAsync(string displayName)
+        {
+            var baseSlug = SlugHelper.Slugify(displayName);
+            var slug = baseSlug;
+            for (var i = 2; await db.Sellers.AnyAsync(s => s.Slug == slug); i++)
+                slug = baseSlug + "-" + i;
+            return slug;
+        }
+
+        private static SellerDto ToDto(Seller seller)
+        {
+            return new SellerDto
             {
                 Id = seller.Id,
                 DisplayName = seller.DisplayName,
-                Email = seller.Email
-            });
+                Email = seller.Email,
+                Slug = seller.Slug,
+                Bio = seller.Bio
+            };
         }
     }
 }

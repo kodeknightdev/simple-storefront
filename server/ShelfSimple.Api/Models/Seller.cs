@@ -16,6 +16,14 @@ namespace ShelfSimple.Api.Models
         [Index(IsUnique = true)]
         public string Email { get; set; }
 
+        // used in the public shop url, /shop/{slug}
+        [Required, MaxLength(60)]
+        [Index(IsUnique = true)]
+        public string Slug { get; set; }
+
+        [MaxLength(1000)]
+        public string Bio { get; set; }
+
         // null for the seeded dev sellers until they set one
         [MaxLength(200)]
         public string PasswordHash { get; set; }

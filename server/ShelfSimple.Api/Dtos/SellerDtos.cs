@@ -14,10 +14,21 @@ namespace ShelfSimple.Api.Dtos
         public string Password { get; set; }
     }
 
+    public class UpdateProfileRequest
+    {
+        [Required, MaxLength(100)]
+        public string DisplayName { get; set; }
+
+        [MaxLength(1000)]
+        public string Bio { get; set; }
+    }
+
     public class SellerDto
     {
         public int Id { get; set; }
         public string DisplayName { get; set; }
         public string Email { get; set; }
+        public string Slug { get; set; }
+        public string Bio { get; set; }
     }
 }

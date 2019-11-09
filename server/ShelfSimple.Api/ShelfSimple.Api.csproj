@@ -163,6 +163,10 @@
     <Compile Include="Migrations\201908142251318_AddProductIsArchived.Designer.cs">
       <DependentUpon>201908142251318_AddProductIsArchived.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911091856412_AddSellerProfile.cs" />
+    <Compile Include="Migrations\201911091856412_AddSellerProfile.Designer.cs">
+      <DependentUpon>201911091856412_AddSellerProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -177,6 +181,7 @@
     <Compile Include="Services\CartService.cs" />
     <Compile Include="Services\CheckoutService.cs" />
     <Compile Include="Services\ProductNotFoundException.cs" />
+    <Compile Include="Services\SlugHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -209,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908142251318_AddProductIsArchived.resx">
       <DependentUpon>201908142251318_AddProductIsArchived.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911091856412_AddSellerProfile.resx">
+      <DependentUpon>201911091856412_AddSellerProfile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
