@@ -76,7 +76,7 @@ namespace ShelfSimple.Api.Controllers
             return Ok(product);
         }
 
-        private static readonly Expression<Func<Product, ProductDto>> ToDto = p => new ProductDto
+        internal static readonly Expression<Func<Product, ProductDto>> ToDto = p => new ProductDto
         {
             Id = p.Id,
             Title = p.Title,
@@ -86,7 +86,8 @@ namespace ShelfSimple.Api.Controllers
             Price = p.Price,
             Quantity = p.Quantity,
             SellerId = p.SellerId,
-            SellerName = p.Seller.DisplayName
+            SellerName = p.Seller.DisplayName,
+            SellerSlug = p.Seller.Slug
         };
     }
 }

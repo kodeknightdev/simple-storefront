@@ -125,6 +125,7 @@
     <Compile Include="Controllers\SellerOrdersController.cs" />
     <Compile Include="Controllers\SellerProductsController.cs" />
     <Compile Include="Controllers\SellersController.cs" />
+    <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\StripeWebhookController.cs" />
     <Compile Include="Data\ShelfContext.cs" />
     <Compile Include="Dtos\CartDto.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Dtos\ProductInput.cs" />
     <Compile Include="Dtos\SellerDtos.cs" />
     <Compile Include="Dtos\SellerOrderDto.cs" />
+    <Compile Include="Dtos\ShopDto.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

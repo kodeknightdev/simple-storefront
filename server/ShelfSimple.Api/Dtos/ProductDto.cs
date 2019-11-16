@@ -11,5 +11,6 @@ namespace ShelfSimple.Api.Dtos
         public int Quantity { get; set; }
         public int SellerId { get; set; }
         public string SellerName { get; set; }
+        public string SellerSlug { get; set; }
     }
 }
