@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { PagedResult, Product } from '../models/product';
+import { PagedResult, Product, Shop } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +29,9 @@ export class ProductService {
 
   get(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/${id}`);
+  }
+
+  shop(slug: string): Observable<Shop> {
+    return this.http.get<Shop>(`${environment.apiUrl}/shops/${encodeURIComponent(slug)}`);
   }
 }

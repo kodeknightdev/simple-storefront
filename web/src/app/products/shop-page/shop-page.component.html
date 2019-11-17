@@ -1,0 +1,16 @@
+<ng-container *ngIf="shop$ | async as shop; else loading">
+  <header class="shop-header">
+    <h1>{{ shop.displayName }}</h1>
+    <p *ngIf="shop.bio">{{ shop.bio }}</p>
+  </header>
+
+  <p *ngIf="shop.products.length === 0">Nothing listed right now.</p>
+
+  <div class="grid">
+    <app-product-card *ngFor="let product of shop.products" [product]="product"></app-product-card>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
