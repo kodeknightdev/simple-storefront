@@ -195,6 +195,11 @@ namespace ShelfSimple.Api.Services
                 product.Quantity = Math.Max(0, product.Quantity - item.Quantity);
             }
 
+            // the cart has done its job; if the browser still has the id it'll get a 404 and start a new one
+            var cart = await db.Carts.FindAsync(order.CartId);
+            if (cart != null)
+                db.Carts.Remove(cart);
+
             await db.SaveChangesAsync();
         }
 
