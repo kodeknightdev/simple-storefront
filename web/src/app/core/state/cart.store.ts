@@ -47,4 +47,10 @@ export class CartStore {
   remove(productId: number): Observable<Cart> {
     return this.cartService.remove(productId).pipe(tap(cart => this.state.next(cart)));
   }
+
+  // after checkout - forget the cart id and empty the state so the badge resets
+  reset() {
+    this.cartService.clear();
+    this.state.next(null);
+  }
 }

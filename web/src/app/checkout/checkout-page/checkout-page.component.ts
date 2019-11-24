@@ -6,7 +6,6 @@ import { switchMap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { Cart } from '../../core/models/cart';
-import { CartService } from '../../core/services/cart.service';
 import { CheckoutService } from '../../core/services/checkout.service';
 import { CartStore } from '../../core/state/cart.store';
 
@@ -32,7 +31,6 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private cartService: CartService,
     private cartStore: CartStore,
     private checkoutService: CheckoutService
   ) { }
@@ -88,7 +86,7 @@ export class CheckoutPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.checkoutService.confirm(orderId).subscribe(status => {
         this.paying = false;
         if (status.status === 'Paid') {
-          this.cartService.clear();
+          this.cartStore.reset();
           this.router.navigate(['/checkout/complete', status.orderId]);
         }
       });
