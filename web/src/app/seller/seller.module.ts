@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { OrdersComponent } from './orders/orders.component';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { RegisterComponent } from './register/register.component';
     RegisterComponent,
     DashboardComponent,
     ProductFormComponent,
-    OrdersComponent
+    OrdersComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

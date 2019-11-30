@@ -1,0 +1,21 @@
+<a routerLink="/seller" class="back">&larr; Back to your shop</a>
+<h1>Shop profile</h1>
+
+<p *ngIf="seller">
+  Your public page: <a [routerLink]="['/shop', seller.slug]">/shop/{{ seller.slug }}</a>
+</p>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <label>
+    Shop name
+    <input type="text" formControlName="displayName">
+  </label>
+
+  <label>
+    About your shop
+    <textarea rows="5" formControlName="bio"></textarea>
+  </label>
+
+  <button type="submit" class="btn" [disabled]="form.invalid || saving">Save</button>
+  <span *ngIf="saved">&nbsp;Saved.</span>
+</form>

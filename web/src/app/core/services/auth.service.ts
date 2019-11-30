@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
+import { Seller } from '../models/seller';
 
 const TOKEN_KEY = 'shelf.token';
 
@@ -45,6 +46,14 @@ export class AuthService {
 
   register(displayName: string, email: string, password: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/sellers/register`, { displayName, email, password });
+  }
+
+  me(): Observable<Seller> {
+    return this.http.get<Seller>(`${environment.apiUrl}/sellers/me`);
+  }
+
+  updateProfile(displayName: string, bio: string): Observable<Seller> {
+    return this.http.put<Seller>(`${environment.apiUrl}/sellers/me`, { displayName, bio });
   }
 
   logout() {
