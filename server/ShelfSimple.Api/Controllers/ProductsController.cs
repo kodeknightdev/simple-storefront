@@ -33,6 +33,7 @@ namespace ShelfSimple.Api.Controllers
             if (!string.IsNullOrWhiteSpace(category))
                 query = query.Where(p => p.Category == category);
 
+            var totalCount = await query.CountAsync();
             var items = await query
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip((page - 1) * pageSize)
@@ -45,7 +46,7 @@ namespace ShelfSimple.Api.Controllers
                 Items = items,
                 Page = page,
                 PageSize = pageSize,
-                TotalCount = await db.Products.CountAsync()
+                TotalCount = totalCount
             };
         }
 
