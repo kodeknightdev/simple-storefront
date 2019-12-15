@@ -1,7 +1,7 @@
 <a routerLink="/" class="back">&larr; Back to shop</a>
 
 <div class="detail" *ngIf="product$ | async as product; else loading">
-  <img [src]="product.imageUrl" [alt]="product.title">
+  <img [src]="product.imageUrl || 'assets/placeholder.svg'" [alt]="product.title">
 
   <div class="info">
     <h1>{{ product.title }}</h1>

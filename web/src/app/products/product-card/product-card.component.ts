@@ -9,4 +9,14 @@ import { Product } from '../../core/models/product';
 })
 export class ProductCardComponent {
   @Input() product: Product;
+
+  readonly placeholder = 'assets/placeholder.svg';
+
+  // seller pasted a dead link - don't show the broken image icon
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    if (!img.src.endsWith(this.placeholder)) {
+      img.src = this.placeholder;
+    }
+  }
 }

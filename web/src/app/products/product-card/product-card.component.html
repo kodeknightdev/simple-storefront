@@ -1,5 +1,5 @@
 <a class="card" [routerLink]="['/products', product.id]">
-  <img [src]="product.imageUrl" [alt]="product.title">
+  <img [src]="product.imageUrl || placeholder" [alt]="product.title" (error)="onImageError($event)">
   <div class="card-body">
     <h3>{{ product.title }}</h3>
     <p class="seller">by {{ product.sellerName }}</p>
