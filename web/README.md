@@ -1,27 +1,33 @@
-# ShelfSimpleWeb
+# Shelf Simple - web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.2.
+Angular 8 frontend for the Shelf Simple storefront.
 
-## Development server
+## Setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Node 10 LTS, then:
 
-## Code scaffolding
+```
+npm install
+npm start
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`npm start` runs `ng serve` on http://localhost:4200. It expects the API running from
+Visual Studio on https://localhost:44362 (see `../server`). Both urls live in
+`src/environments/environment.ts`.
 
-## Build
+Put your Stripe **test** publishable key (`pk_test_...`) in `stripePublishableKey` in the
+environment files. Test card: `4242 4242 4242 4242`, any future date, any CVC.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Layout
 
-## Running unit tests
+- `core/` - models, api services, the auth interceptor/guard and `CartStore` (cart state)
+- `products/` - listing, product detail and the per-seller shop page
+- `cart/` - cart page (lazy loaded)
+- `checkout/` - Stripe Elements card form + order complete page (lazy loaded)
+- `seller/` - login/sign up, dashboard, product form, orders, profile (lazy loaded, behind `AuthGuard`)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Other commands
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- `npm run build -- --prod` - production build into `dist/`
+- `npm run lint`
+- `npm test` - karma (there isn't much in the way of specs yet)
